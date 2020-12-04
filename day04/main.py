@@ -22,6 +22,16 @@ valid_passports = sum([1 if is_valid_passport(pp) else 0 for pp in id_list])
 
 print(f'Part one: {valid_passports}')
 
+eye_colours = [
+        'amb',
+        'blu',
+        'brn',
+        'gry',
+        'grn',
+        'hzl',
+        'oth'
+        ]
+
 def passport_dictionairyfied(passport):
     detail_list = passport.split()
     detail_dict = {}
@@ -36,19 +46,26 @@ def is_valid_passport_improved(passport):
         if req not in passport:
             return False
         if req == 'byr':
-            return is_valid_byr(passport_details[req])
+            if not is_valid_byr(passport_details[req]):
+                return False
         if req == 'iyr':
-            return is_valid_iyr(passport_details[req])
+            if not is_valid_iyr(passport_details[req]):
+                return False
         if req == 'eyr':
-            return is_valid_eyr(passport_details[req])
+            if not is_valid_eyr(passport_details[req]):
+                return False
         if req == 'hgt':
-            return is_valid_hgt(passport_details[req])
+            if not is_valid_hgt(passport_details[req]):
+                return False
         if req == 'hcl':
-            return is_valid_hcl(passport_details[req])
+            if not is_valid_hcl(passport_details[req]):
+                return False
         if req == 'ecl':
-            return is_valid_ecl(passport_details[req])
+            if not is_valid_ecl(passport_details[req]):
+                return False
         if req == 'pid':
-            return is_valid_pid(passport_details[req])
+            if not is_valid_pid(passport_details[req]):
+                return False
     
 
 def is_valid_byr(value):
@@ -63,24 +80,24 @@ def is_valid_eyr(value):
 def is_valid_hgt(value):
     if len(value) == 4:
         if value[2:4] == 'in':
-            if '59' < value[0,2] and value[0,2] < '76':
+            if '59' <= value[0:2] and value[0:2] <= '76':
                 return True
     if len(value) == 5:
         if value[3:5] == 'cm':
-            if '149' < value[0,3] and value[0,3] < '194':
+            if '150' <= value[0:3] and value[0:3] <= '193':
                 return True
     return False
 
 def is_valid_hcl(value):
-    return True
+    return re.search(r'#[0-9a-f]{6}', value) and len(value) == 7
 
 def is_valid_ecl(value):
-    return True
+    return value in eye_colours
 
 def is_valid_pid(value):
-    return True
+    return re.search(r'[0-9]{9}', value)
 
-valid_passports = sum([1 if is_valid_passport_improved(pp) else 0 for pp in id_list])
-print(f'Part two: {valid_passports}')
+valider_passports = sum([1 if is_valid_passport_improved(pp) else 0 for pp in id_list])
+print(f'Part two: {valider_passports}')
 
 
